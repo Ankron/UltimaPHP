@@ -315,7 +315,7 @@ class Account {
      */
     public function disconnect($reason = 4) {
         $packet = chr(130) . chr(hexdec($reason));
-        UltimaPHP::log("Client " . UltimaPHP::$socketClients[$this->client]['ip'] . " disconnected from the server");
+        UltimaPHP::log(3, UltimaPHP::$socketClients[$this->client]['ip']);
         Sockets::out($this->client, $packet, false, true, true);
     }
 

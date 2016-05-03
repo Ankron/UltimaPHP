@@ -51,22 +51,15 @@ class Object {
     /**
      * Object create/destroy methods
      */
+	public function get_name(){
+		
+	}
+	
     public function create() {
         
     }
 
     public function destroy() {
-        
-    }
-
-    /**
-     * Object Buy/Sell methods
-     */
-    public function buy() {
-        
-    }
-
-    public function sell() {
         
     }
 
@@ -132,7 +125,7 @@ class Object {
         
     }
 
-    public function dropOnSeld() {
+    public function dropOnSelf() {
         
     }
 
@@ -179,3 +172,20 @@ class Object {
     }
 
 }
+
+class Item extends Object {
+	 /**
+     * Object Buy/Sell methods
+     */
+    public function buy() {
+        
+    }
+
+    public function sell() {
+        
+    }
+}
+
+class Charactor extends Object {
+}
+?>

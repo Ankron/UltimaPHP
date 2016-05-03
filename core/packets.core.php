@@ -303,7 +303,7 @@ class Packets {
 
         $player = UltimaPHP::$socketClients[$client]['account']->player;
         $player->dclick($uid);
-        // UltimaPHP::log("Character " . $player->name . " double clicked on UID '$uid'");
+        // UltimaPHP::log(4, array($player->name, $uid));
     }
 
     /**
@@ -425,7 +425,7 @@ class Packets {
             'account' => $account,
             'password' => md5($password),
         );
-        UltimaPHP::log("Account $account connected from " . UltimaPHP::$socketClients[$client]['ip']);
+        UltimaPHP::log(5, array($account, $socketClients[$client]['ip']));
 
         UltimaPHP::$socketClients[$client]['account'] = new Account($account, md5($password), $client);
 
@@ -453,7 +453,7 @@ class Packets {
         UltimaPHP::$socketClients[$client]['account'] = new Account($account, md5($password), $client);
 
         if (true === UltimaPHP::$socketClients[$client]['account']->isValid) {
-            UltimaPHP::log("Account $account logged from " . UltimaPHP::$socketClients[$client]['ip']);
+            UltimaPHP::log(6, array($account, UltimaPHP::$socketClients[$client]['ip']));
 
             // Set the flag on the connection to send next packets compressed
             UltimaPHP::$socketClients[$client]['compressed'] = true;
@@ -477,7 +477,7 @@ class Packets {
     public static function packet_0xA0($data, $client) {
         $server = dechex($data[1] . $data[2]);
         UltimaPHP::$socketClients[$client]['connected_server'] = ((int) $server - 1);
-        UltimaPHP::log("Account " . UltimaPHP::$socketClients[$client]['account']->account . " connecting on server " . UltimaPHP::$servers[UltimaPHP::$socketClients[$client]['connected_server']]['name']);
+        UltimaPHP::log(7, UltimaPHP::$socketClients[$client]['account']->account, UltimaPHP::$servers[UltimaPHP::$socketClients[$client]['connected_server']]['name']);
         UltimaPHP::$socketClients[$client]['account']->sendConnectionConfirmation();
     }
 

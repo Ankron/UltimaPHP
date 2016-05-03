@@ -1,0 +1,34 @@
+%0% UltimaPHP Error #: 0000 Kann nicht Übersetzung aus einer nicht vorhandenen Datei mit dem Namen "%0% " liefern
+%0% UltimaPHP Error #: 0001 Kann nicht Übersetzung aus einer nicht existierenden Nachricht mit dem Namen ID #%1%  in Lokalisierungsdatei zur Verfügung stellen "Lokalisierung /%2%%3%."
+%0% Client %1%  vom Server getrennt
+%0% Zeichen%1%  doppelt auf UID #%2% angeklickt
+%0% Konto%1% von%2% verbunden
+%0% Konto%1% von%2% angemeldet
+%0% Konto%1% auf Server%2% Anschluss
+%0% UltimaPHP Fehler #: 0002 konnte nicht an die Buchse hören.
+%0% UltimaPHP Fehler #: 0003 Server nicht auf%1% auf Port%2% hören konnte
+%0% UltimaPHP Fehler #: 0004-Client gesendet ein unbekanntes Paket 0x%1% 
+%0% Packet erhalten:%1% 
+%0% UltimaPHP Fehler #: 0005 Unknown Veranstaltung wurde an den Server gesendet.
+%0% UltimaPHP Fehler #: 0006 No [Logs] Konfigurationsabschnitt
+%0% UltimaPHP Fehler #: 0007 Server-Konten versucht Login nicht definiert
+%0% UltimaPHP Fehler #: 0008 Server-Konten Anmeldeversuche Zeit blockieren nicht definiert
+%0% UltimaPHP Fehler #: 0009 Server-Protokolle Debug nicht in UltimaPHP.ini definiert.
+%0% %1% 
+%0% Ausgangsserver
+%0% Stoppen Server
+%0% Lädt Datei %1% 
+%0% Fehler beim Laden der Datei; %1% 
+%0% Verbindung mit der Datenbank ...
+%0% Erfolg!
+%0% MySQL Fehler:%1% 
+%0% Unbekannter Status Fehler.
+%0% Server überwacht %1% auf Port %2%
+%0% Server ausgeführt wird.
+%0% Server abgestürzt.
+"%0%" ist keine Datei.
+"%0%" fehlt.
+%0% ungültiges Paket empfangen.
+---------------------------------------------- %1% Senden Paket:%0%%1% ----------------------------------------------%1% 
+Der Server hat einen Boo Boo.
+----------------------------------------------%1% Recieved Paket:%0%%1%---------------------------------------------%1% 

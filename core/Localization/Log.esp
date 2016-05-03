@@ -1,0 +1,34 @@
+%0% UltimaPHP Error #: 0000 No se puede proporcionar una traducción de un archivo inexistente llamado "%0%"
+%0% UltimaPHP Error #: 0001 No se puede proporcionar una traducción de un mensaje inexistente con id #%1% en el archivo de localización llamado "localization/%2%.%3%"
+%0% Client %1% desconectado del servidor
+%0% Carácter %1% se hace doble clic sobre el UID #%2% 
+%0% cuenta %1% conectado desde%2% 
+%0% cuenta %1% registra desde%2% 
+%0% cuenta %1% de conexión en el servidor%2% 
+%0% UltimaPHP Error #: 0002 No se pudo escuchar a la toma.
+%0% UltimaPHP Error #: 0003 Server no pudo escuchar en %1% en el puerto %2% 
+%0% UltimaPHP Error #: 0004 Cliente envía un paquete desconocido 0x%1% 
+%0% paquete recibido: %1% 
+%0% UltimaPHP Error #: 0005 evento Desconocido se envía al servidor.
+%0% UltimaPHP Error #: 0006 No [logs] sección de configuración
+%0% UltimaPHP Error #: 0007 Servidor de cuentas de inicio de sesión no intenta definir
+%0% UltimaPHP Error #: 0008 Servidor de cuentas de intentos de inicio de sesión bloque de tiempo no definido
+%0% UltimaPHP Error #: 0009 registros de depuración del servidor no está definido en UltimaPHP.ini.
+%0% %1%
+%0% Arranque del servidor
+%0% Detención del servidor
+%0% Carga de archivos; %1% 
+%0% Si no se carga el archivo; %1% 
+%0% Conexión a la base de datos ...
+%0% de éxito!
+%0% MySQL ERROR: %1% 
+%0% Error de Estado desconocido.
+%0% Server está escuchando en %1% en el puerto%2% 
+%0% Server se está ejecutando.
+%0% servidor caído.
+"%0%" no es un archivo.
+"%0%" no se encuentra.
+%0% de paquetes no válidos recibidos.
+----------------------------------------------%1%Envío de paquetes: %0%%1%----------------------------------------------%1%
+El servidor hizo una metida de pata.
+----------------------------------------------%1%Recieved paquete: %0%%1%---------------------------------------------%1%

@@ -4,7 +4,7 @@
  * Ultima PHP - OpenSource Ultima Online Server written in PHP
  * Version: 0.1 - Pre Alpha
  */
-class Player {
+class Player{ //Needs to extend off character class for simplicity.
     /* Server variables */
 
     public $client;
@@ -248,20 +248,26 @@ class Player {
         }
         Sockets::out($this->client, $packet, false);
     }
-
+	
+	public function runCommand($command = array()) { //this function will be used to get the language of the client for not it just returns "enu"
+		return "enu";
+	}
+	
     public function runCommand($command = array()) {
         if (UltimaPHP::$socketClients[$this->client]['account']->plevel > 1 && !isset($command[0])) {
-            $this->sysmessage("Sorry, but no command was received from client.");
+            $this->sysmessage(UltimaPHP::localization("core/Localization/ClientMessages", $this->getLanguage(), 0));
             return false;
         }
 
         if (!isset(UltimaPHP::$commands[$command[0]])) {
-            $this->sysmessage("Sorry, the command you are trying to run was has been found.");
+			$this->sysmessage(UltimaPHP::localization("core/Localization/ClientMessages", $this->getLanguage(), 1));
+            //$this->sysmessage("Sorry, the command you are trying to run was has been found.");
             return false;
         }
 
         if (UltimaPHP::$commands[$command[0]]['minPlevel'] > UltimaPHP::$socketClients[$this->client]['account']->plevel) {
-            $this->sysmessage("Sorry, but you can't run this command, your account have no rights to do that.");
+			$this->sysmessage(UltimaPHP::localization("core/Localization/ClientMessages", $this->getLanguage(), 2));
+            //$this->sysmessage("Sorry, but you can't run this command, your account have no rights to do that.");
             return false;
         }
 
@@ -270,7 +276,8 @@ class Player {
 
         if ($cmd == "add") {
             if (!class_exists($args[0])) {
-                $this->sysmessage("Sorry, but the item you are trying to create (" . $args[0] . ") has not been found.");
+				$this->sysmessage(UltimaPHP::localization("core/Localization/ClientMessages", $this->getLanguage(), 3, array($args[0])));
+                //$this->sysmessage("Sorry, but the item you are trying to create (" . $args[0] . ") has not been found.");
                 return false;
             }
 

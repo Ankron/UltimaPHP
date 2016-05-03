@@ -16,6 +16,15 @@ class Map {
     private static $tileMatrix = [];
 
     public function __construct() {
+		if (isset(UltimaPHP::$conf)==false)
+			$lang="enu";
+		elseif (isset(UltimaPHP::$conf['server'])==false)
+			$lang="enu";
+		elseif (isset(UltimaPHP::$conf['server']['lang'])==false)
+			$lang="enu";
+		else
+			$lang=UltimaPHP::$conf['server']['lang'];
+			
         $actualMap = 0;
         /**
          * Render the maps inside chunk arrays
@@ -27,9 +36,11 @@ class Map {
             UltimaPHP::setStatus(UltimaPHP::STATUS_FILE_LOADING, array(
                 $mapFile,
             ));
-
-            if (!is_file($mapFile)) {
-                UltimaPHP::setStatus(UltimaPHP::STATUS_FILE_LOAD_FAIL);
+			If (file_exists($mapFile)==FALSE){
+			    UltimaPHP::setStatus(UltimaPHP::STATUS_FILE_LOAD_FAIL, array(UltimaPHP::localization("core/Localization/Log", $lang, 29, array($mapFile))));//UltimaPHP::Localization("core/Localization/Log", UltimaPHP::$conf['server']['lang'], array($mapFile)));
+                UltimaPHP::stop();	
+			}elseif (!is_file($mapFile)) {
+                UltimaPHP::setStatus(UltimaPHP::STATUS_FILE_LOAD_FAIL, array(UltimaPHP::localization("core/Localization/Log", $lang, 28, array($mapFile))));//UltimaPHP::Localization("core/Localization/Log", UltimaPHP::$conf['server']['lang'], array($mapFile)));
                 UltimaPHP::stop();
             }
 
@@ -85,7 +96,7 @@ class Map {
                             $z = 127;
                         }
                         if ($tile > 0) {
-                            echo "$tile|$x,$y,$z,$actualMap\n";
+                            //echo "$tile|$x,$y,$z,$actualMap\n";
                             // self::$maps[$actualMap][$x][$y][$z] = $tile;
                         }
                     }
@@ -178,7 +189,7 @@ class Map {
                             }
 
                             if ($static_graphic > 0) {
-                                echo "$static_graphic|$static_x|$static_y|$static_z|$static_hue\n";
+                                //echo "$static_graphic|$static_x|$static_y|$static_z|$static_hue\n";
                             }
 
                             $binmul .= Functions::strToHex($static_graphic);
@@ -219,7 +230,7 @@ class Map {
                 // $length = Functions::read_byte($staticIdx, 4);
                 echo "$lookup|$length\n";
                 if ($length > 0 && $lookup > 0) {
-                    echo "$lookup|$length\n";
+                    //echo "$lookup|$length\n";
 
                     // fseek($staticMul, $lookup, SEEK_SET);
                     // for ($i=0; $i < ($length/7); $i++) {

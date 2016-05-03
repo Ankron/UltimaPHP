@@ -42,17 +42,17 @@ class UltimaPHP {
     static $status = self::STATUS_UNKNOWN;
     static $start_time;
     static $basedir;
-    static $conf;
     static $servers = array();
 
     /* Server Clients Sockets Variables */
     static $socketServer;
     static $socketClients = array();
     static $socketEvents = array();
-
+	static $conf=array();
     /* Server Database Connection Variables */
     static $db;
-
+	
+	
     /* Shard Variables */
     static $starting_locations = array();
     static $clients = 0;
@@ -67,7 +67,71 @@ class UltimaPHP {
     function __construct($dir) {
         self::$basedir = $dir . "/";
     }
+	
+	public static function localization($file, $lang, $id){
+		global $server;
+		unset($string);
+		/*
+		Command Format 
+		
+		class::localization(<file>, <lang>, <id>, [array(<argument 1>, <argument 2>, <argument 3>, ...)])
+		
+		Command Arguments:
+		
+		$file is the base file name the localization is in.
+		$lang is the three character abbreviation of the language.
+		$id is the id of the localization
+		The fourth unstated variable is called "Arguments" this 
+		should be an array of arguments, if it is not, it will 
+		automatically be converted to an array.
+		
+		localization Format:
+		
+		Ignore [SOF] and [EOF], these will never be stated in the file. 
+		These just signify the start and end points of a file for instruction purposes.
+		"ln x | " signify a line of text in a file.
+		
+		[SOF]
+		ln 1 | The %0% %1% fox %2% over the log.
+		ln 2 | I ate a %0% for %1%.
+		[EOF]*/
+		
+		if (isset($server->localization[$file.".".$lang])==FALSE){ //load a file and put it in the localization array
+			if (file_exists($file.".".$lang)==FALSE){
+				if ($file==="core/localization/log"){
+					Die("UltimaPHP Fatal Error #:0000 Cannot provide translation from a non-existent system file named \"".$file.".".$lang."\"\n");
+				}else{
+					UltimaPHP::log(0, $file.".".$lang);
+				}
+			}else{
+				$server->localization[$file.".".$lang]=file_get_contents($file.".".$lang);//Load file and break into lines
+				$server->localization[$file.".".$lang]=explode("\n",$server->localization[$file.".".$lang]);
+			}
+		}
+		$arguments=func_get_arg(3);
 
+
+		if (!isset($string)){
+			if (isset($server->localization[$file.".".$lang][$id])){
+				$string=$server->localization[$file.".".$lang][$id];
+
+				foreach ($arguments as $k => $v){ //$k = key, $v = value
+
+					$string=str_replace("%".$k."%", $v, $string);
+					
+				}
+				return $string;
+			
+			}elseif ($file==="core/Localization/Log"){
+				$string="UltimaPHP Fatal Error #:0000 Cannot provide translation from a non-existent system error with id #".$id."\" in localization file named \"".$file.".".$lang."\"\n";
+				die($string);
+			}else{
+				UltimaPHP::log(1, $file.".".$lang);
+			}
+		}else{
+			return $string;
+		}
+	}
     public function start() {
         self::setStatus(self::STATUS_START);
 
@@ -159,7 +223,7 @@ class UltimaPHP {
         }
 
         self::$conf = array_change_key_case(parse_ini_file(self::$basedir . "ultimaphp.ini", true), CASE_LOWER);
-
+		date_default_timezone_set(self::$conf['server']['timezone']);
         // Ini validations
         if (!isset(self::$conf['server'])) {
             $iniMessage = "No [server] configuration section";
@@ -234,7 +298,7 @@ class UltimaPHP {
                 }
             }
         }
-
+        date_default_timezone_set(self::$conf['server']['timezone']);
         // Update the variable as array
         $clientVersion = explode(".", self::$conf['server']['client']);
         self::$conf['server']['client'] = array(
@@ -269,84 +333,119 @@ class UltimaPHP {
     public static function setStatus($status, $args = array()) {
         switch ($status) {
             case self::STATUS_START:
-                $message = "Starting server";
+                $message = 17;
+				$arguments=array();
                 $type = self::LOG_NORMAL;
                 break;
 
             case self::STATUS_STOP:
-                $message = "Stoping server";
+				$message = 18;
+				$arguments=array();
                 $type = self::LOG_NORMAL;
                 break;
 
             case self::STATUS_FATAL:
-                $message = "Server crashed suddenly";
+				$message = 27;
+				$arguments=array();
                 $type = self::LOG_DANGER;
                 $shutdown = true;
                 break;
 
             case self::STATUS_FILE_LOADING:
-                $message = "Loading file: " . $args[0];
+                //$message = "Loading file: ";
+				$message = 19;
+				$arguments=array($args[0]);
                 $type = self::LOG_NORMAL;
                 break;
 
             case self::STATUS_FILE_LOAD_FAIL:
-                $message = "Loading file failed";
+                $message = 20;
+				if (isset($args[0])){
+					$arguments=array($args[0]);
+				}else{
+					$arguments=array();
+				}
                 $type = self::LOG_DANGER;
                 break;
 
             case self::STATUS_FILE_LOADED:
-                $message = null;
+                $message = 22;
+				$arguments=array();
                 $type = self::LOG_NORMAL;
                 break;
 
             case self::STATUS_DATABASE_CONNECTING:
-                $message = "Trying to connect to the database";
+                $message = 21;
+				$arguments=array();
                 $type = SELF::LOG_NORMAL;
                 break;
 
             case self::STATUS_DATABASE_CONNECTED:
-                $message = "Database connected successfully";
+                $message = 23;
+				$arguments=array();
                 $type = SELF::LOG_NORMAL;
                 break;
 
             case self::STATUS_DATABASE_CONNECTION_FAILED:
-                $message = "Server could not connect to the database with error: " . $args[0];
+                $message = 24;
+				$arguments=array($args[0]);
                 $type = SELF::LOG_DANGER;
                 $shutdown = true;
                 break;
 
             case self::STATUS_UNKNOWN:
-                $message = "Unknown status set";
+                $message = 25;
+				$arguments=array();
                 $type = self::LOG_WARNING;
                 break;
 
             case self::STATUS_LISTENING:
-                $message = "Server is listening on " . $args[0] . " at port " . $args[1];
+                $message = 26;
+				$arguments=array($args[0], $args[1]);
                 $type = self::LOG_NORMAL;
                 break;
 
             case self::STATUS_RUNNING:
-                $message = "Server is running on " . $args[0] . " at port " . $args[1];
+                $message = 27;
                 $type = self::LOG_NORMAL;
                 break;
 
             default:
-                $message = "Wrong status set. restoring last status.";
+                $message = 32;
+				$arguments=array();
                 $type = self::LOG_DANGER;
                 $status = self::$status;
                 break;
         }
         self::$status = $status;
-        self::log($message, $type);
+		if (is_null($message)==FALSE)
+			self::log($message, $arguments, $type);
 
         if (isset($shutdown)) {
             self::stop();
         }
     }
 
-    public static function log($message = null, $type = "NORMAL") {
-        if (null !== $message && null !== $type) {
-            echo date("H:i:s") . (self::LOG_NORMAL != $type ? " (" . $type . ") " : "") . ": " . $message . "\n";
+    public static function log($message, $arguments) {
+		global $server;
+        if (isset($message)!==FALSE){
+			if (is_array($arguments)==FALSE){
+				$arguments=array($arguments);
+			}
+			if (isset(UltimaPHP::$conf)==false)
+				$lang="enu";
+			elseif (isset(UltimaPHP::$conf['server'])==false)
+				$lang="enu";
+			elseif (isset(UltimaPHP::$conf['server']['lang'])==false)
+				$lang="enu";
+			else
+				$lang=UltimaPHP::$conf['server']['lang'];
+
+			array_unshift($arguments, date("H:i:s", time()));
+
+            $string=UltimaPHP::localization("core/Localization/Log", $lang, $message, $arguments)."\n";
+			echo $string;
+			file_put_contents("logs/".date("Y.m.d").".log" , $string, FILE_APPEND );
         }
     }
 

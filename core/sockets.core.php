@@ -14,7 +14,7 @@ class Sockets {
 
         // Create a TCP Stream socket
         if (false == (UltimaPHP::$socketServer = @socket_create(AF_INET, SOCK_STREAM, 0))) {
-            UltimaPHP::log("Could not start socket listening.", UltimaPHP::LOG_DANGER);
+            UltimaPHP::log(7,array(), UltimaPHP::LOG_DANGER);
             UltimaPHP::stop();
         }
 
@@ -28,7 +28,7 @@ class Sockets {
                 UltimaPHP::$conf['server']['port'],
             ));
         } else {
-            UltimaPHP::log("Server could not listen on " . UltimaPHP::$conf['server']['ip'] . " at port " . UltimaPHP::$conf['server']['port'], UltimaPHP::LOG_DANGER);
+            UltimaPHP::log(8, array(UltimaPHP::$conf['server']['ip'], UltimaPHP::$conf['server']['port']), UltimaPHP::LOG_DANGER);
             UltimaPHP::stop();
         }
         socket_listen(UltimaPHP::$socketServer);
@@ -66,7 +66,8 @@ class Sockets {
                                 self::in(implode("", $packetArray), $client);
                             }
                         } else {
-                            echo "Invalid packet received: " . Functions::strToHex($input) . "\n";
+							UltimaPHP::log(30, array(Functions::strToHex($input)), UltimaPHP::LOG_DANGER);
+                            //echo "Invalid packet received: " . Functions::strToHex($input) . "\n";
                         }
                     }
                 }
@@ -103,12 +104,13 @@ class Sockets {
 
         if (method_exists("Packets", $packet)) {
             if (true === UltimaPHP::$conf['logs']['debug']) {
+				UltimaPHP::log(33, array($input), UltimaPHP::LOG_WARNING);
                 echo "----------------------------------------------\nReceived packet: " . $input . "\n----------------------------------------------\n";
             }
             Packets::$packet(str_split($input, 2), $client);
         } else {
-            UltimaPHP::log("Client sent an unknow packet 0x" . strtoupper(substr($input, 0, 2)) . " to the server:", UltimaPHP::LOG_WARNING);
-            UltimaPHP::log("Packet received: " . $input, UltimaPHP::LOG_NORMAL);
+            UltimaPHP::log(9, array(strtoupper(substr($input, 0, 2))), UltimaPHP::LOG_WARNING);
+            UltimaPHP::log(10, array($input), UltimaPHP::LOG_NORMAL);
         }
     }
 
@@ -139,7 +141,7 @@ class Sockets {
 
         if ($packet !== null) {
             if (true === UltimaPHP::$conf['logs']['debug']) {
-                echo "----------------------------------------------\nSending packet: " . Functions::strToHex($packet) . "\n----------------------------------------------\n";
+				UltimaPHP::log(31, array(Functions::strToHex($packet), "\n"), UltimaPHP::LOG_WARNING);
             }
 
             UltimaPHP::$socketClients[$client]['packets'][] = array(
@@ -156,7 +158,7 @@ class Sockets {
     public static function addEvent($client, $event, $time, $runInLot = false, $dispatchLot = false) {
         $mt = microtime(true);
         if (!is_array($event)) {
-            UltimaPHP::log("Unknow event was send to the server.", UltimaPHP::LOG_WARNING);
+            UltimaPHP::log(12, array(), UltimaPHP::LOG_WARNING);
             return false;
         } else {
             UltimaPHP::$socketEvents[$mt][] = array(

@@ -1,0 +1,34 @@
+%0% UltimaPHP Erreur #: 0000 ne peut pas fournir la traduction d'un fichier non existant nommé "%0%"
+%0% UltimaPHP Erreur #: 0001 ne peut pas fournir la traduction d'un message non-existant avec id #%1% dans le fichier de localisation appelé "localisation /%2%%3%."
+%0% client%1% déconnecté du serveur
+%0% Caractère%1% double-cliqué sur UID #%2%
+%0% Compte%1% connecté à partir de %2%
+%0% Compte%1% enregistré à partir de %2%
+%0% Compte%1% connecter sur le serveur %2%
+%0% UltimaPHP Erreur #: 0002 Impossible d'écouter socket.
+%0% UltimaPHP Erreur #: 0003 Server n'a pas pu écouter sur%1% au port%2%
+%0% UltimaPHP Erreur #: 0004 client a envoyé un paquet inconnu 0x%1%
+%0% Packet reçu:%1%
+%0% UltimaPHP Erreur #: 0005 Événement inconnu a été envoyé au serveur.
+%0% UltimaPHP Erreur #: 0006 Non [logs] section de configuration
+%0% UltimaPHP Erreur #: 0007 Serveur comptes connexion essais non définis
+%0% UltimaPHP Erreur #: 0008 Serveur comptes connexion tente de bloquer le temps non défini
+%0% UltimaPHP Erreur #: 0009 serveur logs debug ne sont pas définis dans UltimaPHP.ini.
+%0% %1%
+%0% Le serveur de démarrage
+%0% Serveur Arrêt
+%0% Fichier de chargement %1%
+%0% Fichier Échec de chargement; %1%
+%0% Connexion à la base de données ...
+%0% De réussite!
+%0% MySQL Erreur: %1%
+%0% Erreur de statut inconnu.
+%0% Server écoute sur%1% sur le port%2%
+%0% Server est en cours d'exécution.
+%0% Serveur écrasé.
+"%0%" est pas un fichier.
+"%0%" est manquant.
+%0% Packet non valide reçu.
+----------------------------------------------%1% Envoi paquet:%0%%1%   ----------------------------------------------%1%
+Le serveur a fait un boo boo.
+----------------------------------------------%1% Recieved Packet:%0%%1% ---------------------------------------------%1%
